@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 import { FlatList, Image, Keyboard, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
 
 const initialDevices = [
   { id: '1', name: 'Máy chiếu Epson EB-2250U', room: 'Phòng 101', type: 'Màn lớn', serial: 'EP2250-001', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
@@ -16,7 +16,7 @@ const initialDevices = [
   { id: '11', name: 'Máy chiếu Sony A1', room: 'Phòng 103', type: 'Máy chiếu', serial: 'SN-PRJ-001', status: 'Đang sửa chữa', statusColor: '#E8F5E9', statusTextColor: '#F9A825' }
 ];
 
-export default function ThietBiScreen({navigation}) {
+export default function ThietBiScreen({ navigation, route }) { 
 
   const [allDevices, setAllDevices] = useState(initialDevices); 
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,7 +58,17 @@ export default function ThietBiScreen({navigation}) {
     setVisibleCount(prev => prev + 4); 
   };
 
-  // ================= GIAO DIỆN TỪNG THẺ THIẾT BỊ =================
+  useEffect(() => {
+    if (route.params?.updatedDevice) {
+      const updated = route.params.updatedDevice;
+      
+      const newList = allDevices.map(d => d.id === updated.id ? updated : d);
+      
+      setAllDevices(newList); 
+      setDeviceList(newList); 
+    }
+  }, [route.params?.updatedDevice]);
+
   const renderDeviceItem = ({ item }) => (
     <View style={styles.itemWrapper}>
       <View style={styles.deviceCard}>
@@ -123,8 +133,10 @@ export default function ThietBiScreen({navigation}) {
           <View>
             <View style={styles.topSection}>
               <View style={styles.header}>
-                <TouchableOpacity><Text style={{ fontSize: 24, fontWeight: 'bold' }}>≡</Text></TouchableOpacity>
-              </View>
+          <TouchableOpacity style={{ padding: 5 }}>
+            <MaterialCommunityIcons name="menu" size={28} color="#000000" />
+          </TouchableOpacity>
+        </View>
 
               <View style={styles.profileRow}>
                 <Image source={require('../assets/avatar-placeholder.png')} style={styles.avatar} />
@@ -205,7 +217,6 @@ export default function ThietBiScreen({navigation}) {
     </SafeAreaView>
   );
 }
-// ================= CSS STYLES =================
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#E3EDF7' }, 
   

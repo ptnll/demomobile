@@ -4,11 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Image, Text, View } from 'react-native';
 
 // Import các màn hình từ thư mục screens
+import BaoTriTongScreen from './screens/BaoTriTongScreen';
 import ChinhSuaThietBiScreen from './screens/ChinhSuaThietBiScreen';
 import ChiTietThietBiScreen from './screens/ChiTietThietBiScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import ThietBiScreen from './screens/ThietBiScreen';
+import XuLyBaoTriScreen from './screens/XuLyBaoTriScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,7 +45,7 @@ function MainTabs() {
       {/* THỨ TỰ CÁC TAB NHƯ BẠN YÊU CẦU */}
       <Tab.Screen name="Trang chủ" component={HomeScreen} />
       <Tab.Screen name="Thiết bị" component={ThietBiScreen} />
-      <Tab.Screen name="Bảo trì" component={DummyScreen} />
+      <Tab.Screen name="Bảo trì" component={BaoTriTongScreen} />
       <Tab.Screen name="Tài khoản" component={DummyScreen} />
     </Tab.Navigator>
   );
@@ -57,6 +59,7 @@ export default function App() {
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="ChiTietThietBi" component={ChiTietThietBiScreen} />
         <Stack.Screen name="ChinhSuaThietBi" component={ChinhSuaThietBiScreen}/>
+        <Stack.Screen name="XuLyBaoTri" component={XuLyBaoTriScreen}/>
 
       </Stack.Navigator>
     </NavigationContainer>

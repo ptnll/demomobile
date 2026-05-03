@@ -25,7 +25,7 @@ export default function HomeScreen({ navigation }) {
  
             <TouchableOpacity style={styles.profileBox} onPress={() => setModalVisible(true)}>
               <View style={styles.profileAvatar}>
-                <Text style={{color: 'white', fontWeight: 'bold'}}>L</Text>
+                <Text style={{color: 'white', fontWeight: 'bold'}}>A</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -36,25 +36,25 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.gridContainer}>
 
         <TouchableOpacity 
-                style={[styles.card, { backgroundColor: '#4A90E2' }]} 
-                onPress={() => navigation.navigate('Thiết bị')}
+                style={[styles.card, { backgroundColor: '#80CBC4' }]} onPress={() => navigation.navigate('Thiết bị')}
             >
             <Image source={require('../assets/icon-pc.png')} style={styles.cardIcon} />
             <Text style={styles.cardTitle}>Tổng Thiết Bị</Text>
             <Text style={styles.cardNumber}>55</Text>
         </TouchableOpacity>
 
-        <View style={[styles.card, { backgroundColor: '#f14a5e' }]}>//7ab8ff
+          <View style={[styles.card, { backgroundColor: '#f14a5e' }]} >
           <Image source={require('../assets/icon-wrench.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Máy Đang Hỏng</Text>
           <Text style={styles.cardNumber}>12</Text>
         </View>
 
-        <View style={[styles.card, { backgroundColor: '#fcce50de' }]}>
+        <TouchableOpacity 
+        style={[styles.card, { backgroundColor: '#4b52b1' }]} onPress={() => navigation.navigate('Bảo trì')} >
           <Image source={require('../assets/icon-clock.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Phiếu Chờ Duyệt</Text>
-          <Text style={styles.cardNumber}>8</Text>
-        </View>
+          <Text style={styles.cardNumber}>5</Text>
+        </TouchableOpacity>
 
         <View style={[styles.card, { backgroundColor: '#93cf4e' }]}>
           <Image source={require('../assets/icon-money.png')} style={styles.cardIcon} />
@@ -130,7 +130,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#c9f0ea' },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, backgroundColor: '#fff' },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 20, backgroundColor: '#ffffff' },
   logo: { width: 60, height: 60, resizeMode: 'contain', marginRight: 10, marginBottom: -5, marginTop: -20 },
   headerTitle: { fontSize: 18, fontWeight: 'bold' },
   profileBox: { alignItems: 'center' },
