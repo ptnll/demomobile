@@ -9,13 +9,13 @@ import ChinhSuaTaiKhoanScreen from './screens/ChinhSuaTaiKhoanScreen';
 import ChinhSuaThietBiScreen from './screens/ChinhSuaThietBiScreen';
 import ChiTietThietBiScreen from './screens/ChiTietThietBiScreen';
 import HomeScreen from './screens/HomeScreen';
+import IntroScreen from './screens/IntroScreen';
 import LoginScreen from './screens/LoginScreen';
 import TaiKhoanScreen from './screens/TaiKhoanScreen';
 import TaoTaiKhoanScreen from './screens/TaoTaiKhoanScreen';
 import ThemThietBiScreen from './screens/ThemThietBiScreen';
 import ThietBiScreen from './screens/ThietBiScreen';
 import XuLyBaoTriScreen from './screens/XuLyBaoTriScreen';
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +59,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Intro" component={IntroScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="ChiTietThietBi" component={ChiTietThietBiScreen} />
