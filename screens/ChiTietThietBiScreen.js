@@ -34,7 +34,7 @@ export default function ChiTietThietBiScreen({ route, navigation }) {
             source={require('../assets/logo.png')} 
             style={{ width: 60, height: 60, resizeMode: 'contain', marginRight: 10 }} 
           />
-          <Text style={styles.headerTitle}>Quản lý thiết bị</Text>
+          <Text style={styles.headerTitle}>Chi tiết thiết bị</Text>
         </View>
 
       </View>
@@ -86,10 +86,14 @@ export default function ChiTietThietBiScreen({ route, navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            style={styles.btnBack} onPress={() => navigation.navigate('Thiết bị', { updatedDevice: device })}
-            >
+            style={styles.btnBack} 
+            onPress={() => navigation.navigate('MainTabs', { 
+              screen: 'Thiết bị', 
+              params: { updatedDevice: device } 
+            })}
+          >
             <Text style={styles.btnBackText}>Quay lại</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
           </View>
 
         </View>
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#E3EDF7' },
   
   topHeader: { backgroundColor: '#80CBC4', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 15 },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  headerTitle: { color: '#000000', fontSize: 20, fontWeight: 'bold' },
   
   breadcrumb: { flexDirection: 'row', paddingHorizontal: 15, paddingVertical: 12, backgroundColor: '#F4F5F7' },
   breadcrumbText: { color: '#666', fontSize: 14 },

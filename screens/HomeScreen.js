@@ -40,17 +40,17 @@ export default function HomeScreen({ navigation }) {
             >
             <Image source={require('../assets/icon-pc.png')} style={styles.cardIcon} />
             <Text style={styles.cardTitle}>Tổng Thiết Bị</Text>
-            <Text style={styles.cardNumber}>55</Text>
+            <Text style={styles.cardNumber}>20</Text>
         </TouchableOpacity>
 
-          <View style={[styles.card, { backgroundColor: '#f14a5e' }]} >
+          <View style={[styles.card, { backgroundColor: '#ff2f47' }]} >
           <Image source={require('../assets/icon-wrench.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Máy Đang Hỏng</Text>
-          <Text style={styles.cardNumber}>12</Text>
+          <Text style={styles.cardNumber}>4</Text>
         </View>
 
         <TouchableOpacity 
-        style={[styles.card, { backgroundColor: '#4b52b1' }]} onPress={() => navigation.navigate('Bảo trì')} >
+        style={[styles.card, { backgroundColor: '#b1a4f7' }]} onPress={() => navigation.navigate('Bảo trì')} >
           <Image source={require('../assets/icon-clock.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Phiếu Chờ Duyệt</Text>
           <Text style={styles.cardNumber}>5</Text>
@@ -59,8 +59,8 @@ export default function HomeScreen({ navigation }) {
         <View style={[styles.card, { backgroundColor: '#93cf4e' }]}>
           <Image source={require('../assets/icon-money.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Tổng Chi Phí</Text>
-          <Text style={styles.cardNumberCost}>120.000.000 ??</Text>
-          <Text style={styles.cardNumberCost}>'0' VNĐ</Text>
+          <Text style={styles.cardNumberCost}>9.000.000 VNĐ</Text>
+         
         </View>
       </View>
 
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   cardIcon: { width: 40, height: 40, resizeMode: 'contain', marginBottom: 15, tintColor: '#fff' },
   cardTitle: { fontSize: 16, fontWeight: 'bold', color: '#fff', textAlign: 'center', marginBottom: 10 },
   cardNumber: { fontSize: 36, fontWeight: 'bold', color: '#fff' },
-  cardNumberCost: { fontSize: 16, fontWeight: 'bold', color: '#fff', textAlign: 'center' },
+  cardNumberCost: { fontSize: 20, fontWeight: 'bold', color: '#fff', textAlign: 'center' },
 
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', alignItems: 'center' },
   modalContent: { width: '90%', backgroundColor: '#F2F2F6', borderRadius: 15, padding: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.3, shadowRadius: 10, elevation: 10 },

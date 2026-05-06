@@ -47,11 +47,11 @@ export default function XuLyBaoTriScreen({ route, navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1E2A47" />
       
-      <SafeAreaView style={{ backgroundColor: '#4b52b1' }}>
+      <SafeAreaView style={{ backgroundColor: '#b1a4f7' }}>
         {/* HEADER CÙNG LOGO */}
         <View style={styles.header}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialCommunityIcons name="tools" size={24} color="#A0AEC0" style={{ marginRight: 10, marginTop: 10, marginLeft:30 , marginBottom: 20, fontSize: 30 }} />
+            <MaterialCommunityIcons name="tools" size={24} color="#ffffff" style={{ marginRight: 10, marginTop: 10, marginLeft:30 , marginBottom: 20, fontSize: 30 }} />
             <Text style={styles.headerTitle}> Xử lý yêu cầu bảo trì </Text>
           </View>
         </View>
@@ -171,11 +171,11 @@ export default function XuLyBaoTriScreen({ route, navigation }) {
 
 // ================= CSS STYLES =================
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#4b52b1' },
+  container: { flex: 1, backgroundColor: '#b1a4f7' },
 
   // Header & Admin Info
-  header: { paddingHorizontal: 20, paddingTop: 15, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#4b52b1' },
-  headerTitle: { color: '#E2E8F0', fontSize: 20, fontWeight: 'bold', letterSpacing: 0.5, marginTop: -10 },
+  header: { paddingHorizontal: 20, paddingTop: 15, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: '#b1a4f7' },
+  headerTitle: { color: '#ffffff', fontSize: 20, fontWeight: 'bold', letterSpacing: 0.5, marginTop: -10 },
   // Content Area
   contentWrapper: { flex: 1, backgroundColor: '#FFFFFF', borderTopLeftRadius: 10, borderTopRightRadius: 10 },
   scrollContent: { paddingHorizontal: 20, paddingTop: 80, paddingBottom: 30 },
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
 
   // Buttons
   buttonGroup: { marginTop: 10 },
-  btnUpdate: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#4b52b1', paddingVertical: 14, borderRadius: 8, marginBottom: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 3 },
+  btnUpdate: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#b1a4f7', paddingVertical: 14, borderRadius: 8, marginBottom: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 3 },
   btnUpdateText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
   
   btnBack: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#818fa5', paddingVertical: 14, borderRadius: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 3 },

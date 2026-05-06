@@ -5,10 +5,14 @@ import { Image, Text, View } from 'react-native';
 
 // Import các màn hình từ thư mục screens
 import BaoTriTongScreen from './screens/BaoTriTongScreen';
+import ChinhSuaTaiKhoanScreen from './screens/ChinhSuaTaiKhoanScreen';
 import ChinhSuaThietBiScreen from './screens/ChinhSuaThietBiScreen';
 import ChiTietThietBiScreen from './screens/ChiTietThietBiScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
+import TaiKhoanScreen from './screens/TaiKhoanScreen';
+import TaoTaiKhoanScreen from './screens/TaoTaiKhoanScreen';
+import ThemThietBiScreen from './screens/ThemThietBiScreen';
 import ThietBiScreen from './screens/ThietBiScreen';
 import XuLyBaoTriScreen from './screens/XuLyBaoTriScreen';
 
@@ -46,7 +50,7 @@ function MainTabs() {
       <Tab.Screen name="Trang chủ" component={HomeScreen} />
       <Tab.Screen name="Thiết bị" component={ThietBiScreen} />
       <Tab.Screen name="Bảo trì" component={BaoTriTongScreen} />
-      <Tab.Screen name="Tài khoản" component={DummyScreen} />
+      <Tab.Screen name="Tài khoản" component={TaiKhoanScreen} />
     </Tab.Navigator>
   );
 }
@@ -60,6 +64,9 @@ export default function App() {
         <Stack.Screen name="ChiTietThietBi" component={ChiTietThietBiScreen} />
         <Stack.Screen name="ChinhSuaThietBi" component={ChinhSuaThietBiScreen}/>
         <Stack.Screen name="XuLyBaoTri" component={XuLyBaoTriScreen}/>
+        <Stack.Screen name="ThemThietBi" component={ThemThietBiScreen}/>
+        <Stack.Screen name="ChinhSuaTaiKhoan" component={ChinhSuaTaiKhoanScreen}/>
+        <Stack.Screen name="TaoTaiKhoan" component={TaoTaiKhoanScreen}/>
 
       </Stack.Navigator>
     </NavigationContainer>
