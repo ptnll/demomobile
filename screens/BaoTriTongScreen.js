@@ -1,22 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { Alert, FlatList, Image, Modal, RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { MaintenanceContext } from '../contexts/MaintenanceContext';
 
 // Dữ liệu giả lập khớp y hệt với ảnh mẫu
-const initialRequests = [
-  { id: '1', date: '19/04/2026', device: 'Máy tính Asus ExpertCenter (Lab 3)', reporter: 'Phạm Ngọc Lan', status: 'Chờ duyệt', statusBg: '#FDE68A', statusColor: '#D97706',imageSource: require('../assets/pc.png') },
-  { id: '2', date: '19/04/2026', device: 'Micro Shure SMS8 (Hội trường)', reporter: 'Phạm Ngọc Lan', status: 'Đã duyệt', statusBg: '#E5E7EB', statusColor: '#4B5563', imageSource: require('../assets/micro.png') },
-  { id: '3', date: '19/04/2026', device: 'Máy tính Lenovo ThinkCentre (Lab 2)', reporter: 'Phạm Ngọc Lan', status: 'Hoàn thành', statusBg: '#bcf8d9', statusColor: '#07be88', imageSource: require('../assets/pc3.png') },
-  { id: '4', date: '17/04/2026', device: 'Máy tính MSI Desktop Pro (Lab 4)', reporter: 'Phạm Ngọc Lan', status: 'Chờ duyệt', statusBg: '#FDE68A', statusColor: '#D97706', imageSource: require('../assets/pc2.png') },
-  { id: '5', date: '13/04/2026', device: 'Máy chiếu Epson EB-2250U (Phòng 101)', reporter: 'Quản trị viên', status: 'Từ chối', statusBg: '#FECACA', statusColor: '#B91C1C', imageSource: require('../assets/maychieu.png') },
-];
+// const initialRequests = [
+//   { id: '1', date: '19/04/2026', device: 'Máy tính Asus ExpertCenter (Lab 3)', reporter: 'Phạm Ngọc Lan', status: 'Chờ duyệt', statusBg: '#FDE68A', statusColor: '#D97706',imageSource: require('../assets/pc.png') },
+//   { id: '2', date: '19/04/2026', device: 'Micro Shure SMS8 (Hội trường)', reporter: 'Phạm Ngọc Lan', status: 'Đã duyệt', statusBg: '#E5E7EB', statusColor: '#4B5563', imageSource: require('../assets/micro.png') },
+//   { id: '3', date: '19/04/2026', device: 'Máy tính Lenovo ThinkCentre (Lab 2)', reporter: 'Phạm Ngọc Lan', status: 'Hoàn thành', statusBg: '#bcf8d9', statusColor: '#07be88', imageSource: require('../assets/pc3.png') },
+//   { id: '4', date: '17/04/2026', device: 'Máy tính MSI Desktop Pro (Lab 4)', reporter: 'Phạm Ngọc Lan', status: 'Chờ duyệt', statusBg: '#FDE68A', statusColor: '#D97706', imageSource: require('../assets/pc2.png') },
+//   { id: '5', date: '13/04/2026', device: 'Máy chiếu Epson EB-2250U (Phòng 101)', reporter: 'Quản trị viên', status: 'Từ chối', statusBg: '#FECACA', statusColor: '#B91C1C', imageSource: require('../assets/maychieu.png') },
+// ];
 
 export default function BaoTriTongScreen({ navigation }) {
-  const [list, setList] = useState(initialRequests);
+  const { requests } = useContext(MaintenanceContext);
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); 
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const maintenanceRequests = requests;
   // STATE MỞ/ĐÓNG MENU TRƯỢT
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -24,7 +25,6 @@ export default function BaoTriTongScreen({ navigation }) {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      setList(initialRequests); // Nạp lại danh sách
       setRefreshing(false);
     }, 800);
   }, []);
@@ -37,43 +37,88 @@ export default function BaoTriTongScreen({ navigation }) {
       { text: 'Đăng xuất', onPress: () => navigation.navigate('Login'), style: 'destructive' },
     ]);
   };
+  const getStatusStyle = (status) => {
+  switch (status) {
+    case 'Chờ duyệt':
+      return {
+        bg: '#FDE68A',
+        text: '#D97706',
+      };
 
+    case 'Đã duyệt':
+      return {
+        bg: '#E5E7EB',
+        text: '#4B5563',
+      };
+
+    case 'Hoàn thành':
+      return {
+        bg: '#bcf8d9',
+        text: '#07be88',
+      };
+
+    case 'Từ chối':
+      return {
+        bg: '#FECACA',
+        text: '#B91C1C',
+      };
+
+    default:
+      return {
+        bg: '#ddd',
+        text: '#333',
+      };
+  }
+};
   // Giao diện cho từng thẻ yêu cầu bảo trì
-  const renderCard = ({ item }) => (
-    <View style={styles.card}>
-      {/* Ngày & Trạng thái */}
-      <View style={styles.cardHeader}>
-        <Text style={styles.cardDate}>{item.date}</Text>
-        <View style={[styles.badge, { backgroundColor: item.statusBg }]}>
-          <Text style={[styles.badgeText, { color: item.statusColor }]}>{item.status}</Text>
+  const renderCard = ({ item }) => {
+    const statusStyle = getStatusStyle(item.status);
+    return (
+      <View style={styles.card}>
+        {/* Ngày & Trạng thái */}
+        <View style={styles.cardHeader}>
+          <Text style={styles.cardDate}>
+            {item.date}</Text>
+          <View style={[styles.badge, { backgroundColor: statusStyle.bg }]}>
+            <Text style={[styles.badgeText, { color: statusStyle.text }]}>{item.status}</Text>
+          </View>
+        </View>
+        {item.repairDate ? (
+          <Text style={styles.cardSub}>
+            Ngày sửa: {item.repairDate}
+          </Text>
+        ) : null}
+
+        {item.repairCost ? (
+          <Text style={styles.cardSub}>
+            Chi phí: {item.repairCost} VNĐ
+          </Text>
+        ) : null}
+        {/* Thông tin thiết bị */}
+        <Text style={styles.cardTitle} numberOfLines={2}>{item.device}</Text>
+        <Text style={styles.cardSub}>Người báo: <Text style={styles.cardSubBold}>{item.createdBy}</Text></Text>
+
+        {/* 2 Nút hành động */}
+        <View style={styles.actionRow}>
+          <TouchableOpacity 
+            style={styles.actionBtn} onPress={() => navigation.navigate('XuLyBaoTri', { request: item, role: 'admin', })}>
+            <MaterialCommunityIcons name="cog" size={16} color="#fff" style={{ marginRight: 6 }} />
+            <Text style={styles.actionBtnText}>Xử lý</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.actionBtn} 
+            onPress={() => {
+              setSelectedImage(item.imageSource); 
+              setModalVisible(true);
+            }}>
+            <MaterialCommunityIcons name="camera" size={16} color="#fff" style={{ marginRight: 6 }} />
+            <Text style={styles.actionBtnText}>Xem ảnh</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      {/* Thông tin thiết bị */}
-      <Text style={styles.cardTitle} numberOfLines={2}>{item.device}</Text>
-      <Text style={styles.cardSub}>Người báo: <Text style={styles.cardSubBold}>{item.reporter}</Text></Text>
-
-      {/* 2 Nút hành động */}
-      <View style={styles.actionRow}>
-        <TouchableOpacity 
-          style={styles.actionBtn} onPress={() => navigation.navigate('XuLyBaoTri', { request: item })}>
-          <MaterialCommunityIcons name="cog" size={16} color="#fff" style={{ marginRight: 6 }} />
-          <Text style={styles.actionBtnText}>Xử lý</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.actionBtn} 
-          onPress={() => {
-            setSelectedImage(item.imageSource); 
-            setModalVisible(true);
-          }}>
-          <MaterialCommunityIcons name="camera" size={16} color="#fff" style={{ marginRight: 6 }} />
-          <Text style={styles.actionBtnText}>Xem ảnh</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
+    );
+  }
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1E2A47" />
@@ -104,7 +149,7 @@ export default function BaoTriTongScreen({ navigation }) {
         </View>
 
         <FlatList
-          data={list}
+          data={requests}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}

@@ -2,6 +2,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker'; // <-- Import thư viện lịch
 import { useState } from 'react';
 import { Alert, Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getDevices, saveDevices } from '../storage/deviceStorage';
+import { initialDevices } from '../data/devices';
 
 export default function ChinhSuaThietBiScreen({ route, navigation }) {
   // Đảm bảo thiết bị luôn có id để sau này Danh sách biết đường mà cập nhật
@@ -44,20 +46,69 @@ export default function ChinhSuaThietBiScreen({ route, navigation }) {
     }
   };
 
-  const handleLuu = () => {
-    if (!device.name.trim() || !device.serial.trim()) {
-      Alert.alert('Lỗi', 'Vui lòng không để trống tên thiết bị và số Serial!');
-      return;
-    }
+  const handleLuu = async () => {
+  if (!device.name.trim() || !device.serial.trim()) {
+    Alert.alert('Lỗi', 'Vui lòng không để trống tên thiết bị và số Serial!');
+    return;
+  }
+  const currentDevices = await getDevices();
+
+  // 3. Kiểm tra Serial đã tồn tại chưa (loại trừ thiết bị hiện tại đang sửa bằng id)
+  const isDuplicate = currentDevices.some(
+    item =>
+      item.serial.toLowerCase().trim() === device.serial.toLowerCase().trim() &&
+      item.id !== device.id
+  );
+
+  if (isDuplicate) {
+    Alert.alert('Lỗi', 'Số Serial này đã tồn tại trên hệ thống!');
+    return;
+  }
+  let updatedDevice = {
+    ...device
+  };
+
+  if (device.status === 'Đang sử dụng') {
+    updatedDevice.statusColor = '#E8F5E9';
+    updatedDevice.statusTextColor = '#2E7D32';
+  }
+
+  if (device.status === 'Đang sửa chữa') {
+    updatedDevice.statusColor = '#FFF8E1';
+    updatedDevice.statusTextColor = '#F9A825';
+  }
+
+  if (device.status === 'Báo lỗi') {
+    updatedDevice.statusColor = '#FFEBEE';
+    updatedDevice.statusTextColor = '#C62828';
+  }
+
+  try {
+    const oldDevices = await getDevices();
+
+    const currentDevices = oldDevices || [];
+
+    const updatedDevices = currentDevices.map((item) =>
+      item.id === updatedDevice.id
+        ? updatedDevice
+        : item
+    );
+
+    await saveDevices(updatedDevices);
 
     Alert.alert('Thành công', 'Đã cập nhật thông tin thiết bị!', [
-      { 
-        text: 'OK', 
-        // Gửi thẳng gói dữ liệu 'device' vừa sửa về lại trang Chi Tiết
-        onPress: () => navigation.navigate('ChiTietThietBi', { device: device }) 
-      },
+      {
+        text: 'OK',
+        onPress: () =>
+          navigation.navigate('ChiTietThietBi', {
+            device: updatedDevice
+          })
+      }
     ]);
-  };
+  } catch (error) {
+    Alert.alert('Lỗi', 'Không thể cập nhật thiết bị!');
+  }
+};
 
   const handleHuy = () => {
     Alert.alert('Xác nhận', 'Bạn có chắc chắn muốn quay lại mà không lưu thay đổi?', [
@@ -174,7 +225,11 @@ export default function ChinhSuaThietBiScreen({ route, navigation }) {
             {/* BỘ HIỂN THỊ LỊCH */}
             {showDatePicker && (
               <DateTimePicker
-                value={new Date()}
+                value={
+                  device.buyDate
+                    ? new Date(device.buyDate.split('/').reverse().join('-'))
+                    : new Date()
+                }
                 mode="date"
                 display="default"
                 onChange={onDateChange}
@@ -206,7 +261,7 @@ const styles = StyleSheet.create({
   inputBox: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: '#CCC', borderRadius: 8, paddingHorizontal: 12, height: 45, backgroundColor: '#FFF' },
   input: { flex: 1, fontSize: 14, color: '#333' },
   row: { flexDirection: 'row', justifyContent: 'space-between' },
-  dropdownMenu: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#ccc', borderRadius: 8, marginTop: 4, elevation: 5 },
+  dropdownMenu: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#ccc', borderRadius: 8, marginTop: 4, elevation: 20, zIndex: 20, },
   dropdownMenuStatus: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#ccc', borderRadius: 8, marginTop: 4, elevation: 5, position: 'absolute', top: 70, left: 0, right: 0, zIndex: 99 },
   dropdownItem: { paddingVertical: 12, paddingHorizontal: 15, borderBottomWidth: 1, borderBottomColor: '#eee' },
   dropdownText: { fontSize: 14, color: '#333' },

@@ -1,6 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getDevices, saveDevices } from '../storage/deviceStorage';
+import { initialDevices } from '../data/devices';
 
 export default function ThemThietBiScreen({ navigation }) {
   // State lưu trữ dữ liệu thiết bị mới
@@ -17,34 +19,52 @@ export default function ThemThietBiScreen({ navigation }) {
   const [isTypeOpen, setTypeOpen] = useState(false);
   const typeOptions = ['Máy chiếu', 'Màn lớn', 'Máy tính', 'Điện lạnh', 'Thiết bị VP', 'Âm thanh', 'Mạng'];
 
-  const handleLuu = () => {
-    // Validate cơ bản
+  const handleLuu = async () => {
     if (!newDevice.name.trim() || !newDevice.serial.trim() || !newDevice.room.trim()) {
       Alert.alert('Lỗi', 'Vui lòng điền đầy đủ Tên thiết bị, Số Serial và Phòng!');
       return;
     }
 
-    // Đóng gói thiết bị mới
     const deviceToAdd = {
-      id: Math.random().toString(), // Tạo ID ngẫu nhiên
+      id: Date.now().toString(),
       name: newDevice.name,
       room: newDevice.room,
-      type: newDevice.type,
+      type: newDevice.type || 'Khác',
       serial: newDevice.serial,
-      status: 'Đang sử dụng', // Mặc định khi mới thêm
+      buyDate: newDevice.buyDate,
+      cycle: newDevice.cycle,
+      status: 'Đang sử dụng',
       statusColor: '#E8F5E9',
       statusTextColor: '#2E7D32'
     };
 
-    Alert.alert('Thành công', 'Đã thêm thiết bị mới!', [
-      { 
-        text: 'OK', 
-        onPress: () => navigation.navigate('MainTabs', { 
-          screen: 'Thiết bị', 
-          params: { newlyAddedDevice: deviceToAdd } 
-        }) 
-      },
-    ]);
+    try {
+      const oldDevices = await getDevices();
+      const currentDevices = oldDevices || [];
+
+      // Check serial trùng
+      const isExist = currentDevices.some(
+        d => d.serial.toLowerCase() === newDevice.serial.toLowerCase()
+      );
+
+      if (isExist) {
+        Alert.alert('Lỗi', 'Serial thiết bị đã tồn tại!');
+        return;
+      }
+
+      const updatedDevices = [deviceToAdd, ...currentDevices];
+
+      await saveDevices(updatedDevices);
+
+      Alert.alert('Thành công', 'Đã thêm thiết bị mới!', [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack()
+        }
+      ]);
+    } catch (error) {
+      Alert.alert('Lỗi', 'Không thể lưu thiết bị!');
+    }
   };
 
   // Component tái sử dụng cho các ô nhập liệu

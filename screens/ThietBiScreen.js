@@ -1,35 +1,37 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { Alert, FlatList, Image, Keyboard, Modal, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
-const initialDevices = [
-  { id: '1', name: 'Máy chiếu Epson EB-2250U', room: 'Phòng 101', type: 'Màn lớn', serial: 'EP2250-001', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '2', name: 'TV Samsung 55 Inch', room: 'Phòng 102', type: 'Màn lớn', serial: 'SS55-002', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '3', name: 'Laptop Dell Latitude', room: 'Phòng IT', type: 'Máy tính', serial: 'DELL-003', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
-  { id: '4', name: 'Điều hòa Daikin 9000BTU', room: 'Phòng 201', type: 'Điện lạnh', serial: 'DK-004', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '5', name: 'Máy in HP LaserJet', room: 'Phòng Giáo viên', type: 'Thiết bị VP', serial: 'HP-005', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
-  { id: '6', name: 'Bảng tương tác thông minh', room: 'Phòng Lab', type: 'Màn lớn', serial: 'BT-006', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '7', name: 'Micro không dây Shure', room: 'Hội trường', type: 'Âm thanh', serial: 'SH-007', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '8', name: 'Loa hội trường JBL', room: 'Hội trường', type: 'Âm thanh', serial: 'JBL-008', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
-  { id: '9', name: 'PC Đồng bộ Lenovo', room: 'Phòng Máy 1', type: 'Máy tính', serial: 'LN-009', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '10', name: 'Router Wifi Cisco', room: 'Phòng IT', type: 'Mạng', serial: 'CS-010', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '11', name: 'Máy chiếu Sony A1', room: 'Phòng 103', type: 'Máy chiếu', serial: 'SN-PRJ-001', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
-  { id: '12', name: 'Bàn phím cơ Fuhlen', room: 'Phòng Máy 1', type: 'Máy tính', serial: 'KB-FL-012', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '13', name: 'Chuột Logitech G102', room: 'Phòng Máy 2', type: 'Máy tính', serial: 'MS-LG-013', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
-  { id: '14', name: 'Máy chiếu Panasonic PT-LB303', room: 'Phòng 202', type: 'Máy chiếu', serial: 'PN-PT-014', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '15', name: 'Màn hình Dell UltraSharp 24"', room: 'Phòng IT', type: 'Màn lớn', serial: 'DL-US-015', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
-  { id: '16', name: 'Máy chấm công Ronald Jack', room: 'Hành lang T1', type: 'Thiết bị VP', serial: 'RJ-016', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '17', name: 'Switch mạng TP-Link 24 port', room: 'Phòng Server', type: 'Mạng', serial: 'SW-TP-017', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '18', name: 'Điều hòa Panasonic 12000BTU', room: 'Phòng 103', type: 'Điện lạnh', serial: 'PN-AC-018', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
-  { id: '19', name: 'Amply Jarguar Suhyoung', room: 'Hội trường', type: 'Âm thanh', serial: 'AM-JG-019', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
-  { id: '20', name: 'Máy photocopy Ricoh', room: 'Phòng Giáo viên', type: 'Thiết bị VP', serial: 'RC-PC-020', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' }
-];
+import { getDevices, saveDevices } from '../storage/deviceStorage';
+import { initialDevices } from '../data/devices';
+// const initialDevices = [
+//   { id: '1', name: 'Máy chiếu Epson EB-2250U', room: 'Phòng 101', type: 'Màn lớn', serial: 'EP2250-001', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '2', name: 'TV Samsung 55 Inch', room: 'Phòng 102', type: 'Màn lớn', serial: 'SS55-002', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '3', name: 'Laptop Dell Latitude', room: 'Phòng IT', type: 'Máy tính', serial: 'DELL-003', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
+//   { id: '4', name: 'Điều hòa Daikin 9000BTU', room: 'Phòng 201', type: 'Điện lạnh', serial: 'DK-004', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '5', name: 'Máy in HP LaserJet', room: 'Phòng Giáo viên', type: 'Thiết bị VP', serial: 'HP-005', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
+//   { id: '6', name: 'Bảng tương tác thông minh', room: 'Phòng Lab', type: 'Màn lớn', serial: 'BT-006', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '7', name: 'Micro không dây Shure', room: 'Hội trường', type: 'Âm thanh', serial: 'SH-007', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '8', name: 'Loa hội trường JBL', room: 'Hội trường', type: 'Âm thanh', serial: 'JBL-008', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
+//   { id: '9', name: 'PC Đồng bộ Lenovo', room: 'Phòng Máy 1', type: 'Máy tính', serial: 'LN-009', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '10', name: 'Router Wifi Cisco', room: 'Phòng IT', type: 'Mạng', serial: 'CS-010', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '11', name: 'Máy chiếu Sony A1', room: 'Phòng 103', type: 'Máy chiếu', serial: 'SN-PRJ-001', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
+//   { id: '12', name: 'Bàn phím cơ Fuhlen', room: 'Phòng Máy 1', type: 'Máy tính', serial: 'KB-FL-012', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '13', name: 'Chuột Logitech G102', room: 'Phòng Máy 2', type: 'Máy tính', serial: 'MS-LG-013', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
+//   { id: '14', name: 'Máy chiếu Panasonic PT-LB303', room: 'Phòng 202', type: 'Máy chiếu', serial: 'PN-PT-014', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '15', name: 'Màn hình Dell UltraSharp 24"', room: 'Phòng IT', type: 'Màn lớn', serial: 'DL-US-015', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' },
+//   { id: '16', name: 'Máy chấm công Ronald Jack', room: 'Hành lang T1', type: 'Thiết bị VP', serial: 'RJ-016', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '17', name: 'Switch mạng TP-Link 24 port', room: 'Phòng Server', type: 'Mạng', serial: 'SW-TP-017', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '18', name: 'Điều hòa Panasonic 12000BTU', room: 'Phòng 103', type: 'Điện lạnh', serial: 'PN-AC-018', status: 'Báo lỗi', statusColor: '#FFEBEE', statusTextColor: '#C62828' },
+//   { id: '19', name: 'Amply Jarguar Suhyoung', room: 'Hội trường', type: 'Âm thanh', serial: 'AM-JG-019', status: 'Đang sử dụng', statusColor: '#E8F5E9', statusTextColor: '#2E7D32' },
+//   { id: '20', name: 'Máy photocopy Ricoh', room: 'Phòng Giáo viên', type: 'Thiết bị VP', serial: 'RC-PC-020', status: 'Đang sửa chữa', statusColor: '#FFF8E1', statusTextColor: '#F9A825' }
+// ];
 
 export default function ThietBiScreen({ navigation, route }) { 
 
-  const [allDevices, setAllDevices] = useState(initialDevices); 
+  const [allDevices, setAllDevices] = useState([]);
+  const [deviceList, setDeviceList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [deviceList, setDeviceList] = useState(initialDevices); 
   const [visibleCount, setVisibleCount] = useState(4); 
   
   // STATE MỚI CHO MENU TRƯỢT
@@ -76,22 +78,22 @@ export default function ThietBiScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (route.params?.updatedDevice) {
-      const updated = route.params.updatedDevice;
-      const newList = allDevices.map(d => d.id === updated.id ? updated : d);
-      setAllDevices(newList); 
-      setDeviceList(newList); 
-    }
-    if (route.params?.newlyAddedDevice) {
-      const newDev = route.params.newlyAddedDevice;
-      const isExist = allDevices.some(d => d.id === newDev.id);
-      if (!isExist) {
-        const newList = [newDev, ...allDevices];
-        setAllDevices(newList);
-        setDeviceList(newList);
+    const unsubscribe = navigation.addListener('focus', async () => {
+      try {
+        const savedDevices = await getDevices();
+
+        setAllDevices(savedDevices);
+        setDeviceList(savedDevices);
+
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [route.params?.updatedDevice, route.params?.newlyAddedDevice]);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const handleThanhLy = (deviceToDelete) => {
     Alert.alert(
@@ -105,6 +107,7 @@ export default function ThietBiScreen({ navigation, route }) {
             const newList = allDevices.filter(d => d.id !== deviceToDelete.id);
             setAllDevices(newList);
             setDeviceList(newList);
+            saveDevices(newList);
             Alert.alert("Thành công", "Đã đưa vào danh mục thanh lý các thiết bị.");
           },
           style: "destructive"

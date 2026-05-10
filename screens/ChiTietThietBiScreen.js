@@ -87,10 +87,7 @@ export default function ChiTietThietBiScreen({ route, navigation }) {
 
             <TouchableOpacity 
             style={styles.btnBack} 
-            onPress={() => navigation.navigate('MainTabs', { 
-              screen: 'Thiết bị', 
-              params: { updatedDevice: device } 
-            })}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.btnBackText}>Quay lại</Text>
           </TouchableOpacity>

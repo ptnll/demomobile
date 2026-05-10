@@ -5,7 +5,7 @@ import { Alert, FlatList, Image, Modal, SafeAreaView, ScrollView, StatusBar, Sty
 // Dữ liệu mẫu có 7 tài khoản
 const initialAccounts = [
   { id: '1', username: 'admin', fullName: 'Quản trị viên', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: '', status: 'Hoạt động', isOnline: true },
-  { id: '2', username: 'techland', fullName: 'Ngọc Lan', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'IT & Âm thanh', status: 'Hoạt động', isOnline: true },
+  { id: '2', username: 'techlan', fullName: 'Ngọc Lan', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'IT & Âm thanh', status: 'Hoạt động', isOnline: true },
   { id: '3', username: 'user123', fullName: 'Ngọc Lan', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: 'None', status: 'Tạm khóa', isOnline: true },
   { id: '4', username: 'hoang_it', fullName: 'Lê Minh Hoàng', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'Phòng Máy Lab', status: 'Hoạt động', isOnline: false },
   { id: '5', username: 'gv_tuan', fullName: 'Trần Anh Tuấn', role: 'User', roleIcon: 'account', roleBg: '#10B981', dept: 'Khoa CNTT', status: 'Hoạt động', isOnline: true },
