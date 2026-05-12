@@ -15,7 +15,9 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = async () => {
     const users = await getUsers();
     const foundUser = users.find(
-      item => item.username === username
+      item =>
+        item.username.toLowerCase().trim() ===
+        username.toLowerCase().trim()
     );
     if (!foundUser) {
       Alert.alert(
@@ -24,7 +26,7 @@ export default function LoginScreen({ navigation }) {
       );
       return;
     }
-    if (foundUser.password !== password) {
+    if (foundUser.password !== password.trim()) {
       Alert.alert(
         'Lỗi đăng nhập',
         'Password không hợp lệ!'

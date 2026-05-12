@@ -1,9 +1,20 @@
 import { useState } from 'react';
 import { Image, Modal, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useContext, useMemo } from 'react';
+import { MaintenanceContext } from '../contexts/MaintenanceContext';
 
 export default function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const { requests } = useContext(MaintenanceContext);
+
+  const totalCost = requests.reduce((sum, item) => {
+    const cost = parseInt(
+      String(item.repairCost || '0').replace(/\./g, '').replace(/,/g, '')
+    );
+
+    return sum + (isNaN(cost) ? 0 : cost);
+  }, 0);
 
   const handleLogout = () => {
     setModalVisible(false); 
@@ -59,8 +70,7 @@ export default function HomeScreen({ navigation }) {
         <View style={[styles.card, { backgroundColor: '#93cf4e' }]}>
           <Image source={require('../assets/icon-money.png')} style={styles.cardIcon} />
           <Text style={styles.cardTitle}>Tổng Chi Phí</Text>
-          <Text style={styles.cardNumberCost}>9.000.000 VNĐ</Text>
-         
+          <Text style={styles.cardNumberCost}>{totalCost.toLocaleString('vi-VN')} VNĐ</Text>
         </View>
       </View>
 

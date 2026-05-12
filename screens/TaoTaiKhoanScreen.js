@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getUsers, saveUsers } from '../storage/usersStorage';
 
 export default function TaoTaiKhoanScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -13,35 +14,103 @@ export default function TaoTaiKhoanScreen({ navigation }) {
 
   const roleOptions = ['Admin', 'Technician', 'User'];
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
+
     if (!username.trim() || !password.trim() || !fullName.trim()) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ Tên đăng nhập, Mật khẩu và Họ tên!');
+      Alert.alert(
+        'Lỗi',
+        'Vui lòng nhập đầy đủ thông tin!'
+      );
       return;
     }
 
-    // Đóng gói data tài khoản mới (giống lúc thêm thiết bị)
-    const newAccount = {
-      id: Math.random().toString(),
-      username: username,
-      fullName: fullName,
-      role: role,
-      roleIcon: role === 'Admin' ? 'flag' : (role === 'Technician' ? 'hammer-wrench' : 'account'),
-      roleBg: role === 'Admin' ? '#2B407D' : (role === 'Technician' ? '#D97706' : '#10B981'),
-      dept: 'Mới tạo',
-      status: 'Hoạt động',
-      isOnline: false
-    };
-    
-    Alert.alert('Thành công', 'Đã tạo tài khoản người dùng mới!', [
-      { 
-        text: 'OK', 
-        // Đóng gói gửi về Tab Tài khoản
-        onPress: () => navigation.navigate('MainTabs', { 
-          screen: 'Tài khoản', 
-          params: { newlyAddedAccount: newAccount } 
-        }) 
+    try {
+
+      // LẤY USER CŨ
+      const oldUsers = await getUsers();
+
+      // CHECK TRÙNG USERNAME
+      const isExist = oldUsers.some(
+        item =>
+          item.username.toLowerCase().trim() ===
+          username.toLowerCase().trim()
+      );
+
+      if (isExist) {
+        Alert.alert(
+          'Lỗi',
+          'Tên đăng nhập đã tồn tại!'
+        );
+        return;
       }
-    ]);
+
+      // USER CHO LOGIN
+      const loginUser = {
+        username: username,
+        password: password,
+
+        fullName: fullName,
+
+        role:
+          role === 'Admin'
+            ? 'admin'
+            : role === 'Technician'
+            ? 'tech'
+            : 'user',
+      };
+
+      // SAVE USER LOGIN
+      const updatedUsers = [...oldUsers, loginUser];
+
+      await saveUsers(updatedUsers);
+
+      // USER HIỂN THỊ UI
+      const newAccount = {
+        id: Date.now().toString(),
+        username: username,
+        fullName: fullName,
+        role: role,
+        roleIcon:
+          role === 'Admin'
+            ? 'flag'
+            : role === 'Technician'
+            ? 'hammer-wrench'
+            : 'account',
+
+        roleBg:
+          role === 'Admin'
+            ? '#2B407D'
+            : role === 'Technician'
+            ? '#D97706'
+            : '#10B981',
+
+        dept: 'Mới tạo',
+        status: 'Hoạt động',
+        isOnline: false,
+      };
+
+      Alert.alert(
+        'Thành công',
+        'Đã tạo tài khoản mới!',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack(),
+          },
+        ]
+      );
+
+    } catch (error) {
+
+      console.log(error);
+
+      Alert.alert(
+        'Lỗi',
+        'Không thể tạo tài khoản!'
+      );
+
+    }
+
   };
 
   return (

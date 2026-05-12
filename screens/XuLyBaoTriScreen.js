@@ -76,7 +76,7 @@ export default function XuLyBaoTriScreen({ route, navigation }) {
 
       repairCost:
         role === 'tech'
-          ? repairCost
+          ? Number(repairCost)
           : request.repairCost,
 
       repairResult:

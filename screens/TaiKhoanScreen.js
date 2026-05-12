@@ -1,40 +1,89 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { Alert, FlatList, Image, Modal, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getUsers, saveUsers } from '../storage/usersStorage';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 // Dữ liệu mẫu có 7 tài khoản
-const initialAccounts = [
-  { id: '1', username: 'admin', fullName: 'Quản trị viên', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: '', status: 'Hoạt động', isOnline: true },
-  { id: '2', username: 'techlan', fullName: 'Ngọc Lan', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'IT & Âm thanh', status: 'Hoạt động', isOnline: true },
-  { id: '3', username: 'user123', fullName: 'Ngọc Lan', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: 'None', status: 'Tạm khóa', isOnline: true },
-  { id: '4', username: 'hoang_it', fullName: 'Lê Minh Hoàng', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'Phòng Máy Lab', status: 'Hoạt động', isOnline: false },
-  { id: '5', username: 'gv_tuan', fullName: 'Trần Anh Tuấn', role: 'User', roleIcon: 'account', roleBg: '#10B981', dept: 'Khoa CNTT', status: 'Hoạt động', isOnline: true },
-  { id: '6', username: 'xuanquynh', fullName: 'Nguyễn Xuân Quỳnh', role: 'User', roleIcon: 'account', roleBg: '#10B981', dept: 'Phòng Đào Tạo', status: 'Tạm khóa', isOnline: false },
-  { id: '7', username: 'manh_admin', fullName: 'Vũ Đức Mạnh', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: 'Ban Quản Trị', status: 'Hoạt động', isOnline: true },
-];
+// const initialAccounts = [
+//   { id: '1', username: 'admin', fullName: 'Quản trị viên', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: '', status: 'Hoạt động', isOnline: true },
+//   { id: '2', username: 'techlan', fullName: 'Ngọc Lan', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'IT & Âm thanh', status: 'Hoạt động', isOnline: true },
+//   { id: '3', username: 'user123', fullName: 'Ngọc Lan', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: 'None', status: 'Tạm khóa', isOnline: true },
+//   { id: '4', username: 'hoang_it', fullName: 'Lê Minh Hoàng', role: 'Technician', roleIcon: 'hammer-wrench', roleBg: '#D97706', dept: 'Phòng Máy Lab', status: 'Hoạt động', isOnline: false },
+//   { id: '5', username: 'gv_tuan', fullName: 'Trần Anh Tuấn', role: 'User', roleIcon: 'account', roleBg: '#10B981', dept: 'Khoa CNTT', status: 'Hoạt động', isOnline: true },
+//   { id: '6', username: 'xuanquynh', fullName: 'Nguyễn Xuân Quỳnh', role: 'User', roleIcon: 'account', roleBg: '#10B981', dept: 'Phòng Đào Tạo', status: 'Tạm khóa', isOnline: false },
+//   { id: '7', username: 'manh_admin', fullName: 'Vũ Đức Mạnh', role: 'Admin', roleIcon: 'flag', roleBg: '#2B407D', dept: 'Ban Quản Trị', status: 'Hoạt động', isOnline: true },
+// ];
+
 
 export default function TaiKhoanScreen({ navigation, route }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [accounts, setAccounts] = useState(initialAccounts);
+  const [accounts, setAccounts] = useState([]);
   const [activeMenuId, setActiveMenuId] = useState(null);
   const [filterMode, setFilterMode] = useState('All'); 
   
   // KHAI BÁO BIẾN MENU Ở TRONG HÀM NÀY MỚI ĐÚNG:
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (route.params?.updatedAccount) {
-      const updatedAcc = route.params.updatedAccount;
-      const newList = accounts.map(acc => acc.id === updatedAcc.id ? updatedAcc : acc);
-      setAccounts(newList);
+  useFocusEffect(
+    useCallback(() => {
+      loadAccounts();
+    }, [])
+  );
+
+  const loadAccounts = async () => {
+
+    try {
+
+      const users = await getUsers();
+
+      const formattedUsers = users.map((item, index) => ({
+
+        id: index.toString(),
+
+        username: item.username,
+
+        fullName: item.fullName || item.username,
+
+        role:
+          item.role === 'admin'
+            ? 'Admin'
+            : item.role === 'tech'
+            ? 'Technician'
+            : 'User',
+
+        roleIcon:
+          item.role === 'admin'
+            ? 'flag'
+            : item.role === 'tech'
+            ? 'hammer-wrench'
+            : 'account',
+
+        roleBg:
+          item.role === 'admin'
+            ? '#2B407D'
+            : item.role === 'tech'
+            ? '#D97706'
+            : '#10B981',
+
+        dept: 'Hệ thống',
+
+        status: 'Hoạt động',
+
+        isOnline: false,
+
+      }));
+
+      setAccounts(formattedUsers);
+
+    } catch (error) {
+
+      console.log(error);
+
     }
-    if (route.params?.newlyAddedAccount) {
-      const newAcc = route.params.newlyAddedAccount;
-      if (!accounts.some(acc => acc.id === newAcc.id)) {
-        setAccounts([newAcc, ...accounts]);
-      }
-    }
-  }, [route.params?.updatedAccount, route.params?.newlyAddedAccount]);
+
+  };
 
   const toggleMenu = (id) => {
     if (activeMenuId === id) setActiveMenuId(null);
@@ -48,20 +97,43 @@ export default function TaiKhoanScreen({ navigation, route }) {
   const handleLogout = () => {
     Alert.alert('Đăng xuất', 'Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?', [
       { text: 'Hủy', style: 'cancel' },
-      { text: 'Đăng xuất', onPress: () => navigation.navigate('Login'), style: 'destructive' },
+      { text: 'Đăng xuất', onPress: () => navigation.replace('Login'), style: 'destructive' },
     ]);
   };
 
-  const handleDelete = (id, username) => {
+  const handleDelete = async (id, username) => {
+
     closeMenu();
-    Alert.alert('Xác nhận xóa', `Bạn có chắc chắn muốn xóa tài khoản "${username}" không?`, [
-      { text: 'Hủy', style: 'cancel' },
-      { 
-        text: 'Xóa', 
-        style: 'destructive', 
-        onPress: () => setAccounts(accounts.filter(acc => acc.id !== id))
-      }
-    ]);
+
+    Alert.alert(
+      'Xác nhận xóa',
+      `Bạn có chắc chắn muốn xóa tài khoản "${username}" không?`,
+      [
+        {
+          text: 'Hủy',
+          style: 'cancel',
+        },
+
+        {
+          text: 'Xóa',
+          style: 'destructive',
+
+          onPress: async () => {
+
+            const users = await getUsers();
+
+            const updatedUsers = users.filter(
+              item => item.username !== username
+            );
+
+            await saveUsers(updatedUsers);
+
+            loadAccounts();
+
+          },
+        },
+      ]
+    );
   };
 
   const handleToggleLock = (id) => {
