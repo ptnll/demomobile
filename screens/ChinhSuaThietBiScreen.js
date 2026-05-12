@@ -3,8 +3,14 @@ import DateTimePicker from '@react-native-community/datetimepicker'; // <-- Impo
 import { useState } from 'react';
 import { Alert, Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getDevices, saveDevices } from '../storage/deviceStorage';
-import { initialDevices } from '../data/devices';
-
+const InputField = ({ label, value, onChangeText }) => (
+    <View style={styles.inputWrap}>
+      <Text style={styles.inputLabel}>{label}</Text>
+      <View style={styles.inputBox}>
+        <TextInput style={styles.input} value={value} onChangeText={onChangeText} />
+      </View>
+    </View>
+  );
 export default function ChinhSuaThietBiScreen({ route, navigation }) {
   // Đảm bảo thiết bị luôn có id để sau này Danh sách biết đường mà cập nhật
   const initialDevice = route.params?.device || {
@@ -116,15 +122,6 @@ export default function ChinhSuaThietBiScreen({ route, navigation }) {
       { text: 'Quay lại', onPress: () => navigation.goBack(), style: 'destructive' },
     ]);
   };
-
-  const InputField = ({ label, value, onChangeText }) => (
-    <View style={styles.inputWrap}>
-      <Text style={styles.inputLabel}>{label}</Text>
-      <View style={styles.inputBox}>
-        <TextInput style={styles.input} value={value} onChangeText={onChangeText} />
-      </View>
-    </View>
-  );
 
   return (
     <View style={{ flex: 1, backgroundColor: '#E3EDF7' }}>

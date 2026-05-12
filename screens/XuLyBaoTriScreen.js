@@ -120,7 +120,7 @@ export default function XuLyBaoTriScreen({ route, navigation }) {
 
       {/* PHẦN NỘI DUNG FORM CHÍNH (Nền trắng) */}
       <View style={styles.contentWrapper}>
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="always">
       
           {/* ================= DROPDOWN KỸ THUẬT VIÊN ================= */}
           {role === 'admin' && (

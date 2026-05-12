@@ -2,8 +2,22 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getDevices, saveDevices } from '../storage/deviceStorage';
-import { initialDevices } from '../data/devices';
-
+// Component tái sử dụng cho các ô nhập liệu
+  const InputField = ({ label, icon, placeholder, value, onChangeText, keyboardType = 'default' }) => (
+    <View style={styles.inputWrap}>
+      <Text style={styles.inputLabel}>{label}</Text>
+      <View style={styles.inputBox}>
+        <MaterialCommunityIcons name={icon} size={20} color="#888" style={{ marginRight: 8 }} />
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          keyboardType={keyboardType}
+        />
+      </View>
+    </View>
+  );
 export default function ThemThietBiScreen({ navigation }) {
   // State lưu trữ dữ liệu thiết bị mới
   const [newDevice, setNewDevice] = useState({
@@ -66,23 +80,6 @@ export default function ThemThietBiScreen({ navigation }) {
       Alert.alert('Lỗi', 'Không thể lưu thiết bị!');
     }
   };
-
-  // Component tái sử dụng cho các ô nhập liệu
-  const InputField = ({ label, icon, placeholder, value, onChangeText, keyboardType = 'default' }) => (
-    <View style={styles.inputWrap}>
-      <Text style={styles.inputLabel}>{label}</Text>
-      <View style={styles.inputBox}>
-        <MaterialCommunityIcons name={icon} size={20} color="#888" style={{ marginRight: 8 }} />
-        <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          keyboardType={keyboardType}
-        />
-      </View>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
