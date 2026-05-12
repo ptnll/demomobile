@@ -46,7 +46,8 @@ Dự án sử dụng công nghệ **React Native** kết hợp hệ sinh thái *
 Mở Terminal và thực hiện các lệnh sau:
 ```bash
 # Clone repo về máy
-git clone [https://github.com/ptnll/demomobile.git](https://github.com/ptnll/demomobile.git)
+git clone [https://github.com/ptnll/demomobile.git]
+(https://github.com/ptnll/demomobile.git)
 
 # Di chuyển vào thư mục dự án
 cd demomobile
@@ -68,12 +69,14 @@ user: techlan / pass: lan02022026
 Giáo viên: 
 user: userlan / pass: lan03032026
 
+```
+
 ## Link video Demo
 
 
 
 ## Hình ảnh Demo
-## Giao diện Admin
+### Giao diện Admin
 ![alt text](./assets/z7814741550361_f470ff6ee24fa01c8675a894e1dda0ea.jpg)
 
 ![alt text](./assets/z7814741557434_5c5488d1bd35825baacb04e2d837de88.jpg) 
@@ -106,7 +109,7 @@ user: userlan / pass: lan03032026
 
 ![alt text](./assets/z7814759805909_0a427717991597fe141a73489d320f4b.jpg) 
 
-![alt text](./assets/z7814759813949_3c18502c1f91f902054c81a25d007f8f.jpg) 
+![alt text](assets/z7814759813949_3c18502c1f91f902054c81a25d007f8f.jpg) 
 
 
 
