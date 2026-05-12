@@ -75,6 +75,7 @@ user: userlan / pass: lan03032026
 
 [Ấn vào liên kết này để xem video demo của em ạ!] 
 [https://drive.google.com/file/d/13mOo1HgVuRqwzfrywUt7XLArXVgaT6IL/view?usp=sharing]
+[https://drive.google.com/file/d/1HF9gjYci4TOPX4s9hzFEaWrOqLHPAbqw/view?usp=drive_link]
 
 ---
 ## Hình ảnh minh họa hệ thống
