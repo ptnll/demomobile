@@ -21,7 +21,7 @@ Dự án sử dụng công nghệ **React Native** kết hợp hệ sinh thái *
 
 ## Phân công nhiệm vụ cụ thể
 * **Phạm Thị Ngọc Lan:** Lập trình Logic hệ thống, lập trình giao diện (Frontend) cho phần Người dùng (User) và Nhân viên kỹ thuật (Technician), tổng hợp báo cáo.
-* **Lại Ngọc Anh:** Thiết kế UI/UX trên Figma, lập trình giao diện (Frontend) cho phần Quản trị viên (Admin).
+* **Lại Ngọc Anh:** Thiết kế UI/UX trên Figma, lập trình giao diện (Frontend) cho phần Quản trị viên (Admin), kiểm thử và quay video demo.
 * **Đinh Thế Hiển:** Lập trình giao diện (Frontend) cho phần Admin và kiểm thử hệ thống.
 
 ---
