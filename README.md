@@ -73,10 +73,11 @@ user: userlan / pass: lan03032026
 ---
 ## Link video Demo
 
-
+[Ấn vào liên kết này để xem video demo của em ạ!] 
+[https://drive.google.com/file/d/13mOo1HgVuRqwzfrywUt7XLArXVgaT6IL/view?usp=sharing]
 
 ---
-## Hình ảnh Demo
+## Hình ảnh minh họa hệ thống
 ### Giao diện Admin
 ![alt text](./assets/z7814741550361_f470ff6ee24fa01c8675a894e1dda0ea.jpg)
 
