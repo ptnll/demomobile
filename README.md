@@ -1,7 +1,7 @@
 # Báo cáo cuối kì II
 ## Thông tin sinh viên
 - Họ tên: Lại Ngọc Anh - Phạm Thị Ngọc Lan - Đinh Thế Hiển
-- Mã SV: 23810310430 - 23810310 - 23810310
+- Mã SV: 23810310430 - 23810310232 - 23810310283
 
 
 ## Hướng dẫn chạy app
