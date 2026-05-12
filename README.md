@@ -46,8 +46,7 @@ Dự án sử dụng công nghệ **React Native** kết hợp hệ sinh thái *
 Mở Terminal và thực hiện các lệnh sau:
 ```bash
 # Clone repo về máy
-git clone [https://github.com/ptnll/demomobile.git]
-(https://github.com/ptnll/demomobile.git)
+git clone https://github.com/ptnll/demomobile.git
 
 # Di chuyển vào thư mục dự án
 cd demomobile
