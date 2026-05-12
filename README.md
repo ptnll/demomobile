@@ -21,7 +21,7 @@ Dự án sử dụng công nghệ **React Native** kết hợp hệ sinh thái *
 
 ## Phân công nhiệm vụ cụ thể
 * **Phạm Thị Ngọc Lan:** Lập trình Logic hệ thống, lập trình giao diện (Frontend) cho phần Người dùng (User) và Nhân viên kỹ thuật (Technician), tổng hợp báo cáo.
-* **Lại Ngọc Anh:** Thiết kế UI/UX trên Figma, lập trình giao diện (Frontend) cho phần Quản trị viên (Admin)
+* **Lại Ngọc Anh:** Thiết kế UI/UX trên Figma, lập trình giao diện (Frontend) cho phần Quản trị viên (Admin).
 * **Đinh Thế Hiển:** Lập trình giao diện (Frontend) cho phần Admin và kiểm thử hệ thống.
 
 ---
@@ -71,10 +71,12 @@ user: userlan / pass: lan03032026
 
 ```
 
+---
 ## Link video Demo
 
 
 
+---
 ## Hình ảnh Demo
 ### Giao diện Admin
 ![alt text](./assets/z7814741550361_f470ff6ee24fa01c8675a894e1dda0ea.jpg)
@@ -101,15 +103,15 @@ user: userlan / pass: lan03032026
 
 ## Giao diện tech
 
-![alt text](./assets/z7814741613437_e65faa8b48bdc194ba87c9777299fbb9.jpg) 
-
-![alt text](./assets/z7814741642663_f3b743bd31a33c4dfb49cb48d9074fcd.jpg) 
-
-## Giao diện user 
-
 ![alt text](./assets/z7814759805909_0a427717991597fe141a73489d320f4b.jpg) 
 
 ![alt text](assets/z7814759813949_3c18502c1f91f902054c81a25d007f8f.jpg) 
+
+## Giao diện user 
+
+![alt text](./assets/z7814741613437_e65faa8b48bdc194ba87c9777299fbb9.jpg) 
+
+![alt text](./assets/z7814741642663_f3b743bd31a33c4dfb49cb48d9074fcd.jpg) 
 
 
 
