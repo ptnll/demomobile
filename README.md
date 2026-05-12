@@ -10,10 +10,6 @@
 3. Chạy app: `npm start` (hoặc `npx expo start` / `react-native run-android`)
 
 
-## Video Demo
-[Ấn vào liên kết này để xem video demo của em ạ!] 
-
-
 ## Hình ảnh Demo
 ![alt text](./assets/z7814741550361_f470ff6ee24fa01c8675a894e1dda0ea.jpg)
 
