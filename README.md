@@ -77,6 +77,10 @@ user: userlan / pass: lan03032026
 [https://drive.google.com/file/d/13mOo1HgVuRqwzfrywUt7XLArXVgaT6IL/view?usp=sharing]
 [https://drive.google.com/file/d/1HF9gjYci4TOPX4s9hzFEaWrOqLHPAbqw/view?usp=drive_link]
 
+## Link Figma
+[Ấn vào liên kết này để xem Figma của em ạ!] 
+[https://www.figma.com/design/qfOxiHU5XXdyk0PCiqv6fq/Maintenance?node-id=0-1&t=zdgCojA1bAFk0mTy-1]
+
 ---
 ## Hình ảnh minh họa hệ thống
 ### Giao diện Admin
